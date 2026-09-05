@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⭐ 3‑STERNE · GENERAL · CHESS · ATMOSPHERIC</title>
+    <title>IKI1UC · ANIME · HISTORY CHESS · WASSEROBERFLÄCHE</title>
+
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
@@ -13,6 +14,19 @@
             padding: 10px;
             min-height: 100vh;
             background: radial-gradient(ellipse at 30% 40%, #0a0a20, #000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(10,10,20,0.6);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 80px rgba(0,0,0,0.6);
         }
         h1 {
             text-align: center;
@@ -31,9 +45,11 @@
             -webkit-text-fill-color: #3d5a70;
             letter-spacing: 2px;
         }
-        .container { max-width:1400px; margin:0 auto; }
-        .flex { display:flex; flex-wrap:wrap; gap:4px; align-items:center; margin:3px 0; }
-        .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+        .grid3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
         @media(max-width:1100px){ .grid3 { grid-template-columns:1fr 1fr; } }
         @media(max-width:700px){ .grid3 { grid-template-columns:1fr; } }
 
@@ -51,6 +67,7 @@
             margin-bottom: 5px;
             text-transform: uppercase;
         }
+        .flex { display:flex; flex-wrap:wrap; gap:4px; align-items:center; margin:3px 0; }
 
         button {
             background: #0f0;
@@ -195,9 +212,9 @@
 <body>
 <div class="container">
 
-    <h1>⭐ 3‑STERNE · GENERAL · CHESS · ATMOSPHERIC</h1>
+    <h1>⭐ ANIME · HISTORY CHESS · WASSEROBERFLÄCHE</h1>
     <h1 style="font-size:11px;margin-top:-2px;background:none;-webkit-text-fill-color:#3d5a70;color:#3d5a70;font-weight:400">
-        PREFETCH · PREDICT · CACHE · VEREINHEITLICHT · ATMOSPHERE · CHESS
+        81‑SLOT · GEO‑MATRIX · FUSION · HORIZONTAL
     </h1>
 
     <div class="grid3">
@@ -205,7 +222,7 @@
         <!-- LINKES PANEL: General Engine -->
         <div>
             <div class="panel">
-                <h3>🎯 INDUSTRY · STEUERUNG</h3>
+                <h3>🎯 STEUERUNG</h3>
                 <div class="flex">
                     <button class="gold" id="btnGeneral">⚡ GENERAL RUN</button>
                     <button id="btnReset">⟲ RESET</button>
@@ -260,7 +277,7 @@
         <!-- MITTLERES PANEL: Schachbrett + AtmoBoard -->
         <div>
             <div class="panel">
-                <h3>♟️ CHESS · ATMOSPHERIC</h3>
+                <h3>♟️ CHESS · ATMOSPHERIC · 81‑SLOT · WASSER</h3>
                 <div class="board-wrap" id="boardWrap">
                     <canvas id="atmoCanvas"></canvas>
                     <canvas id="chessCanvas"></canvas>
@@ -282,7 +299,7 @@
             </div>
 
             <div class="panel">
-                <h3>📊 3 ANZEIGEN · PREFETCH · PREDICT · CACHE</h3>
+                <h3>📊 PREFETCH · PREDICT · CACHE</h3>
                 <div class="metric-grid">
                     <div class="metric">
                         <div class="label">📦 PREFETCH</div>
@@ -355,12 +372,12 @@
 
     </div>
 
-    <div class="footer"><span>♟️</span> 3‑STERNE · GENERAL · CHESS · ATMOSPHERIC · <span>wieimmer4u</span></div>
+    <div class="footer"><span>♟️</span> ANIME · HISTORY CHESS · WASSEROBERFLÄCHE · <span>wieimmer4u</span></div>
 </div>
 
 <script>
 // ================================================================
-// BAUSTEIN 0: ATMOSPHERIC BOARD (AtmoBoard)
+// BAUSTEIN 0: ATMOSPHERIC BOARD · WASSEROBERFLÄCHE (81-Slot)
 // ================================================================
 class AtmoBoard {
     constructor(canvas, boardSize = 8) {
@@ -371,36 +388,54 @@ class AtmoBoard {
         this.angle = 0;
         this.particles = [];
         this.lines = [];
-        this.colors = { light: { r: 60, g: 80, b: 100 }, dark: { r: 30, g: 50, b: 60 } };
-        this.mood = 'neon';
+        this.slots = []; // 81 Slots für 9×9 (bei boardSize=8 werden 64 davon genutzt)
+        this.mood = 'anime';
         this.running = true;
+        this.initSlots();
         this.initLines();
     }
 
+    // ─── 81 SLOTS (ANIME-System) ────────────────────────────────
+    initSlots() {
+        this.slots = [];
+        for (let i = 0; i < 81; i++) {
+            this.slots.push({
+                value: Math.sin(i * 0.2),
+                pulse: 0,
+                drift: 0,
+                angle: 0
+            });
+        }
+    }
+
+    updateSlots(time) {
+        for (let i = 0; i < 81; i++) {
+            const s = this.slots[i];
+            s.value = Math.sin(i * 0.2 + time * 0.001);
+            s.pulse = Math.sin(time / 120 + i * 0.1);
+            s.drift = Math.cos(time / 240 + i * 0.05);
+            s.angle = (time / 10 + i * 4) % 360;
+        }
+    }
+
+    // ─── GEO-MATRIX LINES (fließende Wellen wie Wasser) ────────
     initLines() {
         this.lines = [];
-        for (let i=0; i<15; i++) {
-            const start = { x: Math.random()*this.canvas.width, y: Math.random()*this.canvas.height };
-            const end = { x: Math.random()*this.canvas.width, y: Math.random()*this.canvas.height };
+        for (let i = 0; i < 25; i++) {
+            const start = { x: Math.random() * this.canvas.width, y: Math.random() * this.canvas.height };
+            const end = { x: Math.random() * this.canvas.width, y: Math.random() * this.canvas.height };
             this.lines.push({
                 start, end,
                 progress: Math.random(),
-                speed: 0.002 + Math.random()*0.005,
-                width: 0.5 + Math.random()*1.5,
-                color: `rgba(100,200,255,${0.05+Math.random()*0.1})`
+                speed: 0.002 + Math.random() * 0.008,
+                width: 0.5 + Math.random() * 2.5,
+                color: `rgba(100,220,255,${0.05 + Math.random() * 0.2})`
             });
         }
     }
 
     setMood(mood) {
         this.mood = mood;
-        const colors = {
-            cool:   { light: {r:40,g:80,b:140}, dark: {r:20,g:40,b:80} },
-            warm:   { light: {r:200,g:120,b:60}, dark: {r:120,g:60,b:30} },
-            golden: { light: {r:255,g:215,b:0}, dark: {r:180,g:140,b:0} },
-            neon:   { light: {r:0,g:255,b:200}, dark: {r:0,g:150,b:120} }
-        };
-        this.colors = colors[mood] || colors.neon;
     }
 
     resize(width, height) {
@@ -411,61 +446,137 @@ class AtmoBoard {
     }
 
     draw() {
-        const ctx = this.ctx, w=this.canvas.width, h=this.canvas.height, cs=this.cellSize;
-        ctx.fillStyle = `rgba(0,0,0,${0.3+0.1*(0.5+Math.sin(this.angle)*0.2)})`;
-        ctx.fillRect(0,0,w,h);
+        const ctx = this.ctx;
+        const w = this.canvas.width;
+        const h = this.canvas.height;
+        const cs = this.cellSize;
+        const t = Date.now();
 
+        this.updateSlots(t);
+
+        // 1. Hintergrund – sanfter, horizontaler Wellenpuls
+        const pulseGlow = 0.05 + 0.08 * Math.sin(t / 500);
+        ctx.fillStyle = `rgba(0,10,30,${pulseGlow})`;
+        ctx.fillRect(0, 0, w, h);
+
+        // 2. Fließende Linien (Wasseroberfläche horizontal)
         for (const line of this.lines) {
-            const p = (line.progress + this.angle * line.speed) % 1;
-            const x1 = line.start.x + (line.end.x-line.start.x)*p;
-            const y1 = line.start.y + (line.end.y-line.start.y)*p;
-            const x2 = line.start.x + (line.end.x-line.start.x)*((p+0.15)%1);
-            const y2 = line.start.y + (line.end.y-line.start.y)*((p+0.15)%1);
+            const p = (line.progress + t * line.speed * 0.001) % 1;
+            // Horizontale Wellenbewegung (x-Achse fließt, y-Achse wogt)
+            const waveY = Math.sin(p * Math.PI * 4 + t * 0.002) * 20;
+            const x1 = line.start.x + (line.end.x - line.start.x) * p;
+            const y1 = line.start.y + (line.end.y - line.start.y) * p + waveY;
+            const x2 = line.start.x + (line.end.x - line.start.x) * ((p + 0.15) % 1);
+            const y2 = line.start.y + (line.end.y - line.start.y) * ((p + 0.15) % 1) + Math.sin((p + 0.15) * Math.PI * 4 + t * 0.002) * 20;
             ctx.beginPath();
-            ctx.moveTo(x1,y1);
-            ctx.lineTo(x2,y2);
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
             ctx.strokeStyle = line.color;
             ctx.lineWidth = line.width;
             ctx.stroke();
         }
 
-        for (let r=0; r<this.boardSize; r++) {
-            for (let c=0; c<this.boardSize; c++) {
-                const x=c*cs, y=r*cs;
-                const light=(r+c)%2===0;
-                const color=light?this.colors.light:this.colors.dark;
-                const df = Math.sin(r*0.5+c*0.3+this.angle*0.5)*0.15+0.85;
-                ctx.fillStyle = `rgba(${Math.floor(color.r*df)},${Math.floor(color.g*df)},${Math.floor(color.b*df)},0.25)`;
-                ctx.fillRect(x,y,cs,cs);
-                ctx.strokeStyle = `rgba(${color.r+20},${color.g+20},${color.b+30},0.05)`;
-                ctx.lineWidth = 0.5;
-                ctx.strokeRect(x,y,cs,cs);
+        // 3. 9×9 Felder mit Wasser-ähnlichem Farbverlauf
+        for (let r = 0; r < this.boardSize; r++) {
+            for (let c = 0; c < this.boardSize; c++) {
+                const idx = r * this.boardSize + c;
+                const slot = this.slots[idx] || { value: 0, pulse: 0, drift: 0, angle: 0 };
+                const x = c * cs;
+                const y = r * cs;
+
+                // Wasser-ähnliche Farben (blau-cyan mit horizontalem Verlauf)
+                const val = slot.value * 0.5 + 0.5;
+                const pulse = slot.pulse * 0.3 + 0.7;
+                const horizontalWave = Math.sin(x * 0.05 + t * 0.001) * 0.15 + 0.85;
+                const rCol = Math.floor(20 + val * 60 + pulse * 30 * horizontalWave);
+                const gCol = Math.floor(80 + val * 100 + pulse * 50 * horizontalWave);
+                const bCol = Math.floor(180 + val * 50 + pulse * 30 * horizontalWave);
+
+                ctx.fillStyle = `rgba(${rCol}, ${gCol}, ${bCol}, 0.12)`;
+                ctx.fillRect(x, y, cs, cs);
+
+                // Pulsierender Rahmen (Wasser-Licht)
+                const borderPulse = 0.3 + 0.7 * Math.sin(t / 300 + idx * 0.1 + x * 0.02);
+                const borderColor = `rgba(${rCol+60}, ${gCol+60}, ${bCol+60}, ${0.05 + 0.1 * borderPulse})`;
+                ctx.strokeStyle = borderColor;
+                ctx.lineWidth = 0.5 + borderPulse * 0.5;
+                ctx.strokeRect(x, y, cs, cs);
+
+                // Winkel-Indikator (kleiner Punkt, der sich dreht)
+                const angleRad = slot.angle * Math.PI / 180;
+                const dotX = x + cs/2 + Math.cos(angleRad) * cs * 0.3;
+                const dotY = y + cs/2 + Math.sin(angleRad) * cs * 0.3 + Math.sin(t * 0.002 + r * 0.5) * 2;
+                ctx.fillStyle = `rgba(255,255,255,${0.05 + 0.1 * borderPulse})`;
+                ctx.beginPath();
+                ctx.arc(dotX, dotY, 1.5 + borderPulse, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
 
+        // 4. Partikel (Wassertropfen)
         if (Math.random() > 0.94) {
+            const idx = Math.floor(Math.random() * (this.boardSize * this.boardSize));
+            const slot = this.slots[idx] || { value: 0, pulse: 0, drift: 0 };
+            const r = Math.floor(idx / this.boardSize);
+            const c = idx % this.boardSize;
+            const x = c * cs + cs / 2;
+            const y = r * cs + cs / 2 + Math.sin(t * 0.003 + r) * 5;
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 0.3 + Math.random() * 1.5;
             this.particles.push({
-                x:Math.random()*w, y:Math.random()*h,
-                vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5,
-                life:1, size:1+Math.random()*2,
-                color:`rgba(100,200,255,${0.1+Math.random()*0.3})`
+                x, y,
+                vx: Math.cos(angle) * speed + slot.drift * 0.3,
+                vy: Math.sin(angle) * speed + Math.sin(t * 0.002 + idx) * 0.3,
+                life: 1,
+                size: 1 + Math.random() * 3,
+                color: `rgba(${120 + slot.value * 60}, ${200 + slot.pulse * 40}, 255, ${0.2 + 0.3 * slot.pulse})`
             });
         }
+
         this.particles = this.particles.filter(p => {
-            p.x+=p.vx; p.y+=p.vy; p.life-=0.003;
-            if (p.life<=0) return false;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= 0.003;
+            if (p.life <= 0) return false;
             ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.life;
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size*p.life, 0, Math.PI*2);
+            ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
             ctx.fill();
+            ctx.globalAlpha = 1;
             return true;
         });
-        this.angle += 0.008;
+
+        // 5. Status-Overlay (READY / ERRORS)
+        const used = this.boardSize * this.boardSize;
+        const usedSlots = this.slots.slice(0, used);
+        const ready = usedSlots.filter(s => s.value >= -0.5 && s.value <= 0.5).length;
+        const errors = used - ready;
+        ctx.fillStyle = 'rgba(0,0,0,0.3)';
+        ctx.fillRect(6, 6, 110, 32);
+        ctx.fillStyle = ready === used ? '#6bffa9' : '#ffd700';
+        ctx.font = '9px monospace';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.fillText(`READY: ${ready}/${used}`, 10, 9);
+        ctx.fillStyle = errors > 0 ? '#ff6b8a' : '#6bffa9';
+        ctx.fillText(`ERRORS: ${errors}`, 10, 22);
     }
 
-    start() { this.running=true; this.loop(); }
-    loop() { if(!this.running) return; this.draw(); requestAnimationFrame(()=>this.loop()); }
-    stop() { this.running=false; }
+    start() {
+        this.running = true;
+        this.loop();
+    }
+
+    loop() {
+        if (!this.running) return;
+        this.draw();
+        requestAnimationFrame(() => this.loop());
+    }
+
+    stop() {
+        this.running = false;
+    }
 }
 
 // ================================================================
@@ -536,7 +647,7 @@ const engine = {
         document.getElementById('speedSlider').value = speed;
         document.getElementById('speedDisplay').textContent = speed+'ms';
         const moodMap = { 'ACTIVE':'neon', 'IDLE':'cool' };
-        if (window.atmo) atmo.setMood(moodMap[s.predict] || 'neon');
+        if (window.atmo) atmo.setMood(moodMap[s.predict] || 'anime');
     },
 
     render() {
@@ -689,7 +800,7 @@ PREFETCH:${s.prefetchCount}  PREDICT:${s.predictCount}  CACHE:${s.cacheCount}`;
     },
 
     init() {
-        this.log('⭐ 3‑STERNE · GENERAL · CHESS · ATMOSPHERIC','ok');
+        this.log('⭐ 3‑STERNE · GENERAL · CHESS · ATMOSPHERIC · ANIME','ok');
         this.log('📊 vereinheitlichte sync()-Logik für alle Aktionen','info');
         this.render();
         setInterval(() => { if (this.axles.some(a=>a.active)) this.pumpCycle(); }, 8000);
@@ -795,7 +906,7 @@ function selectMoveByStyle(moves, style, strength) {
 }
 
 // ================================================================
-// BAUSTEIN 3: CHESS BOARD & RENDER (korrigiert)
+// BAUSTEIN 3: CHESS BOARD & RENDER
 // ================================================================
 let board = [];
 let currentColor = 'white';
@@ -871,7 +982,7 @@ function animateMove(from, to, piece, callback) {
     const endY = to.r*cs + cs/2;
     const startTime = performance.now();
 
-    // Partikel-Burst
+    // Partikel-Burst (Wassertropfen bei Zug)
     const cx=(startX+endX)/2, cy=(startY+endY)/2;
     for (let i=0; i<15; i++) {
         const angle = Math.random()*Math.PI*2;
@@ -882,7 +993,7 @@ function animateMove(from, to, piece, callback) {
             vy:Math.sin(angle)*speed,
             life:1,
             size:2+Math.random()*3,
-            color:`rgba(255,215,0,${0.3+Math.random()*0.5})`
+            color:`rgba(150,220,255,${0.3+Math.random()*0.5})`
         });
     }
 
@@ -921,7 +1032,7 @@ function renderLoop() {
 }
 
 // ================================================================
-// BAUSTEIN 4: CHESS GAME DATA & CONTROL (korrigiert)
+// BAUSTEIN 4: CHESS GAME DATA & CONTROL
 // ================================================================
 function generateGames(n) {
     const g = [];
@@ -976,7 +1087,6 @@ function playNextMove() {
         return;
     }
     const m = currentGameMoves[moveIndex];
-    // Suche nach Typ + Farbe (NICHT nach Unicode)
     let from=null, piece=null;
     const color = moveIndex % 2 === 0 ? 'white' : 'black';
     for (let r=0; r<8; r++) {
@@ -990,7 +1100,6 @@ function playNextMove() {
         }
         if (from) break;
     }
-    // Fallback: suche nach Unicode (nur falls Typ nicht passt)
     if (!from) {
         for (let r=0; r<8; r++) {
             for (let c=0; c<8; c++) {
@@ -1003,7 +1112,6 @@ function playNextMove() {
         }
     }
     if (from && piece) {
-        // Korrekte Koordinatenberechnung
         const to = {
             r: 8 - parseInt(m.to[1]),
             c: m.to.charCodeAt(0) - 97
@@ -1029,82 +1137,7 @@ function playNextMove() {
 
 function stopAuto() { autoMode=false; document.getElementById('btnAuto').textContent='▶ Auto'; }
 
-// ================================================================
-// BAUSTEIN 5: UI UPDATE & EVENTS
-// ================================================================
 function updateUI() {}
-
-document.addEventListener('DOMContentLoaded', () => {
-    resizeCanvases();
-    setTimeout(resizeCanvases, 150);
-    initBoard();
-    if (allGames.length) loadGame(allGames[0]);
-    atmo.setMood('neon');
-    atmo.start();
-
-    // General Engine initialisieren
-    engine.init();
-    window.engine = engine;
-
-    // General Buttons
-    document.getElementById('btnGeneral').addEventListener('click', ()=>engine.runGeneral());
-    document.getElementById('btnReset').addEventListener('click', ()=>engine.resetAll());
-    document.getElementById('btnToggleAll').addEventListener('click', ()=>engine.toggleAll());
-    document.getElementById('btnRandom').addEventListener('click', ()=>engine.randomize());
-    document.getElementById('btnPump').addEventListener('click', ()=>engine.pumpCycle());
-    document.getElementById('btnLoop').addEventListener('click', ()=>engine.loopAll());
-
-    // Chess Buttons
-    document.getElementById('btnStep').addEventListener('click', playNextMove);
-    document.getElementById('btnAuto').addEventListener('click', () => {
-        if (autoMode) { stopAuto(); return; }
-        if (!currentGame) { if (filtered.length) { currentGame=filtered[0]; loadGame(currentGame); } else return; }
-        autoMode=true;
-        document.getElementById('btnAuto').textContent='⏸ Stop';
-        if (moveIndex===0) playNextMove();
-        else if (moveIndex < currentGameMoves.length) playNextMove();
-        else { stopAuto(); }
-    });
-    document.getElementById('btnResetBoard').addEventListener('click', () => { stopAuto(); initBoard(); renderBoard(); });
-
-    // Speed
-    document.getElementById('speedSlider').addEventListener('input', function() {
-        moveSpeed = parseInt(this.value);
-        document.getElementById('speedDisplay').textContent = moveSpeed+'ms';
-    });
-
-    // Style -> Mood
-    document.getElementById('styleSelect').addEventListener('change', function() {
-        const moodMap = { random:'neon', aggressive:'warm', defensive:'cool', tactical:'golden' };
-        atmo.setMood(moodMap[this.value] || 'neon');
-    });
-
-    // Strength
-    document.getElementById('strengthSlider').addEventListener('input', function() {
-        document.getElementById('strengthDisplay').textContent = this.value;
-    });
-
-    // Effects
-    const effects = {
-        btnIce: { type:'ice', msg:'❄️ ICE · kühle Präzision' },
-        btnWater: { type:'water', msg:'💧 WATER · fließende Bewegung' },
-        btnFire: { type:'fire', msg:'🔥 FIRE · brennender Impuls' }
-    };
-    for (const [id, data] of Object.entries(effects)) {
-        document.getElementById(id).addEventListener('click', () => {
-            const rect = canvas.getBoundingClientRect();
-            spawnEffect(rect.left+rect.width/2, rect.top+rect.height/2, data.type);
-        });
-    }
-
-    // Tastatur
-    document.addEventListener('keydown', (e) => {
-        if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); playNextMove(); }
-        if (e.key === 'r' || e.key === 'R') document.getElementById('btnResetBoard').click();
-        if (e.key === 'a' || e.key === 'A') document.getElementById('btnAuto').click();
-        if (e.key === 'g' || e.key === 'G') document.getElementById('btnGeneral').click();
-    });
-});
 
 function spawnEffect(x,y,type) {
     const el = document.createElement('div');
@@ -1119,8 +1152,82 @@ function spawnEffect(x,y,type) {
     setTimeout(() => el.remove(), 800);
 }
 
-console.log('⭐ 3‑STERNE · GENERAL · CHESS · ATMOSPHERIC geladen');
-console.log('⌨️  Leertaste=Nächster Zug  r=Reset  a=Auto  g=General Run');
+// ================================================================
+// ⭐ START – DAS FEHLENDE GLIED
+// ================================================================
+document.addEventListener('DOMContentLoaded', () => {
+
+    // 1. Canvas initialisieren
+    resizeCanvases();
+    window.addEventListener('resize', resizeCanvases);
+
+    // 2. Schachbrett initialisieren
+    initBoard();
+    renderBoard();
+    if (allGames.length) loadGame(allGames[0]);
+
+    // 3. AtmoBoard starten
+    atmo.setMood('anime');
+    atmo.start();
+
+    // 4. General Engine starten
+    engine.init();
+    window.engine = engine;
+
+    // 5. Buttons binden
+    document.getElementById('btnGeneral').addEventListener('click', ()=>engine.runGeneral());
+    document.getElementById('btnReset').addEventListener('click', ()=>engine.resetAll());
+    document.getElementById('btnToggleAll').addEventListener('click', ()=>engine.toggleAll());
+    document.getElementById('btnRandom').addEventListener('click', ()=>engine.randomize());
+    document.getElementById('btnPump').addEventListener('click', ()=>engine.pumpCycle());
+    document.getElementById('btnLoop').addEventListener('click', ()=>engine.loopAll());
+
+    document.getElementById('btnStep').addEventListener('click', playNextMove);
+    document.getElementById('btnAuto').addEventListener('click', () => {
+        if (autoMode) { stopAuto(); return; }
+        if (!currentGame) { if (filtered.length) { currentGame=filtered[0]; loadGame(currentGame); } else return; }
+        autoMode=true;
+        document.getElementById('btnAuto').textContent='⏸ Stop';
+        if (moveIndex===0) playNextMove();
+        else if (moveIndex < currentGameMoves.length) playNextMove();
+        else { stopAuto(); }
+    });
+    document.getElementById('btnResetBoard').addEventListener('click', () => { stopAuto(); initBoard(); renderBoard(); });
+
+    document.getElementById('speedSlider').addEventListener('input', function() {
+        moveSpeed = parseInt(this.value);
+        document.getElementById('speedDisplay').textContent = moveSpeed+'ms';
+    });
+    document.getElementById('styleSelect').addEventListener('change', function() {
+        const moodMap = { random:'anime', aggressive:'warm', defensive:'cool', tactical:'neon' };
+        atmo.setMood(moodMap[this.value] || 'anime');
+    });
+    document.getElementById('strengthSlider').addEventListener('input', function() {
+        document.getElementById('strengthDisplay').textContent = this.value;
+    });
+
+    const effects = {
+        btnIce: { type:'ice', msg:'❄️ ICE · kühle Präzision' },
+        btnWater: { type:'water', msg:'💧 WATER · fließende Bewegung' },
+        btnFire: { type:'fire', msg:'🔥 FIRE · brennender Impuls' }
+    };
+    for (const [id, data] of Object.entries(effects)) {
+        document.getElementById(id).addEventListener('click', () => {
+            const rect = canvas.getBoundingClientRect();
+            spawnEffect(rect.left+rect.width/2, rect.top+rect.height/2, data.type);
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); playNextMove(); }
+        if (e.key === 'r' || e.key === 'R') document.getElementById('btnResetBoard').click();
+        if (e.key === 'a' || e.key === 'A') document.getElementById('btnAuto').click();
+        if (e.key === 'g' || e.key === 'G') document.getElementById('btnGeneral').click();
+    });
+
+    console.log('⭐ ANIME · HISTORY CHESS · WASSEROBERFLÄCHE geladen');
+    console.log('⌨️  Leertaste=Nächster Zug  r=Reset  a=Auto  g=General Run');
+});
 </script>
 </body>
 </html>
